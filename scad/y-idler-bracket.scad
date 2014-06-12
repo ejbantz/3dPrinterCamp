@@ -14,11 +14,13 @@ slot_length  = 10;
 
 slot = base_nut_traps ? 0 : slot_length;
 axel_height = y_motor_height() + pulley_inner_radius - ball_bearing_diameter(Y_idler_bearing) / 2;
+// axel_height = y_motor_height() + pulley_inner_radius - 8 / 2;
 base_thickness = part_base_thickness + (base_nut_traps ? nut_trap_depth(base_nut) : 0);
 wall = default_wall;
 
 clearance = 1;
 dia  = washer_diameter(M5_penny_washer) + 2 * clearance;
+dia  = 40;
 tab_length = washer_diameter(base_washer) + 2 * clearance + slot;
 length = dia + wall + tab_length;
 
@@ -36,7 +38,7 @@ module y_idler_bracket_stl() {
 
     color(y_idler_bracket_color) intersection() {
         difference() {
-            rotate([90, 0, 90])
+            rotate([90, 00, 90])
                 linear_extrude(height = width, center = true)                                               //side profile
                     hull() {
                         translate([0, axel_height])
@@ -67,7 +69,7 @@ module y_idler_bracket_stl() {
 
             translate([0, 0, axel_height])                                                                  // hole for axel
                 rotate([90, 0, 90])
-                    teardrop_plus(r = M4_clearance_radius, h = width + 1, center = true);
+                    teardrop_plus(r = M8_clearance_radius, h = width + 1, center = true);
         }
         union() { // plan profile
             translate([0, (length - tab_length) / 2 - dia / 2, -1])

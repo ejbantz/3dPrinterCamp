@@ -34,10 +34,10 @@ module bearing_holder(bearing, bar_height, populate = false, rad = 0) {
     height = bar_height + bearing_dia/2 - below;
     offset = below + height / 2 - bearing_dia / 2;
     fence = 2.5;
-    fence_width = sqrt(bearing_dia * bearing_dia - 4 * below * below) + eta;
+    fence_width = sqrt(bearing_dia * bearing_dia - 4 * below * below) + eta +2;
     width = bearing_holder_width(bearing);
     length = bearing_holder_length(bearing);
-    fence_offset = bearing_dia / 2 - fence + (fence + 1) /2;
+    fence_offset = (bearing_dia / 2 - fence + (fence + 1) /2);
     union(){
         difference() {
             translate([0, 0, -offset]) // Basic shape
@@ -58,15 +58,18 @@ module bearing_holder(bearing, bar_height, populate = false, rad = 0) {
                     cube(size = [width, length, height], center = true);
 
             rotate([90,0,0]) {
-                cylinder(h = length + 1, r = bearing_dia / 2, center=true);         // Bearing Cutout
-                cylinder(h = length / 2, r = bearing_dia / 2 + relief, center=true);// releave the center so does not rock
-                tube(h = zipslot_width, ir = bearing_dia / 2 + wall,
+                  cylinder(h = length + 1, r = bearing_dia / 2  + relief , center=true);         // Bearing Cutout
+                   cylinder(h = length / 2, r = bearing_dia / 2 + relief * 2, center=true);// releave the center so does not rock
+                 tube(h = zipslot_width, ir = bearing_dia / 2 + wall,
                                         or = bearing_dia / 2 + wall + zipslot_tickness, fn=64); // ziptie slot
+                  translate([0,15/2,0]) cube([bearing_dia + relief * 2,bearing_dia,length + 1], center=true);
+
 
             }
+			translate([-20,-20,-3]) cube([40,40,40]);
         }
-        translate([0,  (length - end_wall)/ 2, -fence_offset]) cube(size = [fence_width,end_wall,fence + 1], center = true); // Blocks at the end to keep the bearing from sliding out
-        translate([0, -(length - end_wall)/ 2, -fence_offset]) cube(size = [fence_width,end_wall,fence + 1], center = true);
+        translate([0,  relief/2 + (length - end_wall )/ 2, -fence_offset]) cube(size = [fence_width,end_wall - relief,fence + 1], center = true); // Blocks at the end to keep the bearing from sliding out
+        translate([0, -(length - end_wall)/ 2 - relief/2, -fence_offset]) cube(size = [fence_width,end_wall - relief,fence + 1], center = true);
     }
     if(populate)
         rotate([0,0,90])

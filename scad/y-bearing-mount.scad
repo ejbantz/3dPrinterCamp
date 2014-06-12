@@ -22,7 +22,7 @@ function bearing_mount_length(bearing) = bearing_holder_length(bearing);
 
 module tab() {
     linear_extrude(height = bearing_clamp_tab_height + (nutty ? nut_trap_depth(nut) : 0), center = false, convexity = 6)
-        difference() {
+       difference() {
             union() {
                 translate([(bearing_clamp_tab / 2 + slot) / 2, 0])
                     square([bearing_clamp_tab / 2 + slot, bearing_clamp_tab], center = true);
@@ -37,14 +37,14 @@ module tab() {
                 translate([bearing_clamp_tab / 2 + slot / 2, 0])
                     square([slot, screw_clearance_radius * 2], center = true);
             }
-        }
+       }
 }
 
 nut_offset = nutty ? -bearing_clamp_tab / 2 + nut_radius(nut) + 0.5 : 0;
 
 module bearing_mount(bearing, height) {
 
-    endstop_w = bar_clamp_switch_x_offset() + microswitch_thickness() / 2 - bearing_holder_width(bearing) / 2;
+    endstop_w = (bar_clamp_switch_x_offset() + microswitch_thickness() / 2 - bearing_holder_width(bearing) / 2) ;
     endstop_d = 3;
     endstop_h = 3;
     endstop_inset = bearing_holder_width(bearing) / 2 - bearing_radius(bearing);
@@ -52,11 +52,11 @@ module bearing_mount(bearing, height) {
     endstop_root_inset = (1 - sqrt(0.5)) * rad;
 
     stl("y_bearing_mount");
-    color(y_bearing_mount_color) union() {
+   /* color(y_bearing_mount_color)*/  union() {
         bearing_holder(bearing, height, rad = rad);
         for(end = [-1, 1])
             translate([end * (bearing_holder_width(bearing) / 2 - eta), -end * (bearing_holder_length(bearing) - bearing_clamp_tab)/2, -height])
-                difference() {
+                 difference() {
                     rotate([0, 0, 90 - end * 90])
                         tab();
 
@@ -64,17 +64,17 @@ module bearing_mount(bearing, height) {
                         translate([end * (tab_length / 2 + nut_offset), 0, bearing_clamp_tab_height + nut_trap_depth(nut)])
                             nut_trap(screw_clearance_radius, nut_radius, nut_trap_depth(nut));
                 }
-        hull() {
-            translate([-(bearing_holder_width(bearing) / 2 + endstop_w / 2 - endstop_inset / 2 - eta),
+       hull()  {
+          color("blue")  translate([(-(bearing_holder_width(bearing) / 2 + endstop_w / 2 - endstop_inset / 2 - eta))-.5,
                        -(bearing_holder_length(bearing) / 2 - endstop_d / 2),
                        -bar_clamp_switch_z_offset()])
                 cube([endstop_w + endstop_inset, endstop_d, endstop_h], center = true);
 
-            translate([-(bearing_holder_width(bearing) / 2 - endstop_root_inset - eta),
+          color("pink")  translate([-(bearing_holder_width(bearing) / 2 - endstop_root_inset - eta),
                        -(bearing_holder_length(bearing) / 2 - endstop_root_inset - eta),
                        - height + bearing_clamp_tab_height])
                 cube(1);
-        }
+        } 
     }
 }
 
@@ -98,7 +98,7 @@ module y_bearing_assembly(height)
     //
     // Fasterners
     //
-    bearing_mount_holes()
+   bearing_mount_holes()
         translate([0, 0, -height + bearing_clamp_tab_height]) {
             if(nutty)
                 nut(nut, true);
