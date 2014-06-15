@@ -12,19 +12,32 @@ connecting_bar_thickness = 1;
 
 union(){
 
-    // The linear bearing mounts
-	for (set  = [-1,1])
-	for (side = [-1,1])
-	translate([width_on_center / 2 * side ,length_on_center / 2 * set ,height])
-	bearing_holder(X_bearings, height);
+intersection(){
+	union() {
+		// The linear bearing mounts
+		for (set  = [-1,1])
+			for (side = [-1,1]){
+				translate([width_on_center / 2 * side ,length_on_center / 2 * set ,height])
+				{
+					bearing_holder(X_bearings, height);
+					translate([11.5 * side,13.5 * set,-9])
+						cube([3,3,12], center = true);  // pad to hit the switch
+				}
+			}
 
-
+		// Circle pads for gluing
+		for (set  = [-1,1])
+			for (side = [-1,1])
+				translate([width_on_center / 2 * side ,length_on_center / 2 * set ,connecting_bar_thickness/2])
+					cylinder(connecting_bar_thickness,pad_diameter/2,pad_diameter/2, center=true);
+	}
+				
 	// Circle pads for gluing
 	for (set  = [-1,1])
-	for (side = [-1,1])
-	translate([width_on_center / 2 * side ,length_on_center / 2 * set ,connecting_bar_thickness/2])
-	cylinder(connecting_bar_thickness,pad_diameter/2,pad_diameter/2, center=true);
-
+		for (side = [-1,1])
+			translate([width_on_center / 2 * side ,length_on_center / 2 * set ,connecting_bar_thickness/2])
+				cylinder(100,pad_diameter/2,pad_diameter/2, center=true);			
+}
 	// Bar connecting the bearing mounts
 	translate([0,0,connecting_bar_thickness/2])
 	difference() 

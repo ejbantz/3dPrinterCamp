@@ -57,7 +57,7 @@ module y_belt_anchor(height, toothed) {
             }
 
 
-            translate([0, depth / 2, height + (h - height) / 2 + 2 * eta])                              // slot for belt
+            translate([0, depth / 2, height + (h - height + 2) / 2 + 2 * eta])                              // slot for belt
                 cube([belt_width(Y_belt) + belt_clearance, depth + 1, h - height], center = true);
 
             for(side = [-1, 1]) {                                                                        // clamp screw nut traps
