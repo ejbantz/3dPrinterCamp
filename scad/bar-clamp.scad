@@ -100,12 +100,8 @@ module bar_clamp(d, h, w, switch = false, yaxis = false) {
                                 else
                                     tearslot( h = 100, r = screw_clearance_radius(frame_screw) + .5 , center = true, w = 2); // mounting screw
 
-                    if(!yaxis)
-                        translate([-w / 2 - axis_end_clearance,
-                                   outer_rad + microswitch_thickness() / 2 - rail_offset,
-                                   h - outer_rad + microswitch_first_hole_x_offset()])
-                            rotate([0, 90, 90])
-                                microswitch_holes();
+                 
+                        
 
                     *translate([0,-50,-1]) cube([100,100,100]);             // cross section for debug
                 }
