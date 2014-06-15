@@ -9,6 +9,7 @@
 //
 include <conf/config.scad>
 include <positions.scad>
+include <MCAD/units.scad>
 
 nut_trap_meat = 4;                  // how much plastic above the nut trap
 wall = 3;
@@ -46,7 +47,7 @@ module bar_clamp(d, h, w, switch = false, yaxis = false) {
     gap = 1.5;
     inner_rad = bar_clamp_inner_rad(d);
     outer_rad = bar_clamp_outer_rad(d);
-    stem = bar_clamp_stem(d);
+    stem = bar_clamp_stem(d) - 7;
     length = bar_clamp_length(d);
     rail_offset = bar_rail_offset(d);
 
@@ -74,29 +75,20 @@ module bar_clamp(d, h, w, switch = false, yaxis = false) {
                                     square([stem, h], center = true);                       // stem
                                 translate([(stem/2 - outer_rad), h, 0])
                                     circle(r = outer_rad, center = true);                   // band
-                                translate([-stem/2 ,h,0])
-                                    square([stem - outer_rad, outer_rad]);                  // band tab
+                     
 
                             }
                             translate([(stem/2 - outer_rad), h, 0])
                                 poly_circle(r = inner_rad, center = true);                  // bore
 
-                            translate([-rail_offset, h, 0])
+                            translate([-rail_offset + 2, h , 0])
                                 square([stem, gap]);                                        // gap
 
                             }
                         }
-                    //
-                    // plastic saving cavity
-                    //
-                    translate([0, -cavity_l / 2 - bar_clamp_tab - wall, cavity_h / 2 - eta])
-                        cube([cavity_w, cavity_l, cavity_h], center = true);
-                    //
-                    // nut trap
-                    //
-                    translate([0,-length + 1.5 * bar_clamp_tab,0])
-                        rotate([0,0,90])
-                            nut_trap(screw_clearance_radius, nut_radius, h - nut_trap_meat, horizontal = true);
+            
+  
+  
                     //
                     // mounting holes
                     //
@@ -106,7 +98,7 @@ module bar_clamp(d, h, w, switch = false, yaxis = false) {
                                 if(nutty)
                                     nut_trap(screw_clearance_radius(mount_screw), nut_radius(screw_nut(mount_screw)), nut_depth, true);
                                 else
-                                    tearslot( h = 100, r = screw_clearance_radius(frame_screw), center = true, w = 2); // mounting screw
+                                    tearslot( h = 100, r = screw_clearance_radius(frame_screw) + .5 , center = true, w = 2); // mounting screw
 
                     if(!yaxis)
                         translate([-w / 2 - axis_end_clearance,
@@ -118,18 +110,19 @@ module bar_clamp(d, h, w, switch = false, yaxis = false) {
                     *translate([0,-50,-1]) cube([100,100,100]);             // cross section for debug
                 }
                 if(switch && yaxis) {                                       // switch bracket
+					 
                     difference() {
-                        union() {
+						union() {
                             translate([w / 2 -sbracket_length,
-                                        y_switch_y(d) + microswitch_thickness() / 2 - rail_offset,
+                                        y_switch_y(d) + microswitch_thickness() / 2 - rail_offset ,
                                         y_switch_z(h) - microswitch_button_x_offset() - microswitch_length() / 2])
                                 cube([sbracket_length, sbracket_thickness, sbracket_height]);
 
                             translate([w / 2 - eta - sbracket_thickness,
-                                       y_switch_y(d) - microswitch_thickness() / 2 - rail_offset +0.5,
+                                       y_switch_y(d) - microswitch_thickness() / 2 - rail_offset +0.5 - 4,
                                        y_switch_z(h) - microswitch_button_x_offset() - microswitch_length() / 2])
                                 cube([sbracket_thickness,
-                                      y_switch_y(d) - outer_rad + microswitch_thickness() / 2 + 1,
+                                      y_switch_y(d) - outer_rad + microswitch_thickness() / 2 + 1 + 4,
                                       h - (y_switch_z(h) - microswitch_button_x_offset() - microswitch_length() / 2)]);
                         }
                         translate([y_switch_x(w), y_switch_y(d) - rail_offset, y_switch_z(h)])
@@ -139,7 +132,7 @@ module bar_clamp(d, h, w, switch = false, yaxis = false) {
                         if(!nutty)
                             translate([0, - 0.5 * bar_clamp_tab - 0.5,0]) // screwdriver access
                                 rotate([0,0,90])
-                                    teardrop(h = 100, r = 3, center = true, truncate = false);
+                                    teardrop(h = 100, r = 0.30 * inch / 2 , center = true, truncate = false);
                     }
                 }
             }
@@ -228,7 +221,7 @@ module bar_clamps_stl() {
     translate([2, y3 -2 * bar_rail_offset(Y_bar_dia) + bar_clamp_length(Y_bar_dia), 0])                      y_bar_clamp_stl();
 }
 
-if(0)
+if(1)
     bar_clamps_stl();
 else {
     z_bar_clamp_assembly(Z_bar_dia, gantry_setback, bar_clamp_depth, true);
