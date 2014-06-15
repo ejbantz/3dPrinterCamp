@@ -56,8 +56,7 @@ module z_motor_bracket(y_offset, rhs) {
                     //
                     // bar clamp
                     //
-                    translate([z_bar_offset() + clamp_length / 2 - eta, 0, clamp_height / 2 + eta])
-                        cube([clamp_length, clamp_width, clamp_height], center = true);
+       
                     translate([z_bar_offset(), 0, clamp_height / 2 + eta])
                         cylinder(h = clamp_height, r = Z_bar_dia/2 + clamp_thickness, center = true);
                 }
@@ -87,12 +86,9 @@ module z_motor_bracket(y_offset, rhs) {
                 // bar clamp
                 //
                 translate([z_bar_offset() + clamp_length / 2, 0, 0])                            // clamp slot
-                    cube([clamp_length, gap,  clamp_height * 2 + 1], center = true);
+                   cube([clamp_length, gap,  clamp_height * 2 + 1], center = true);
 
-                translate([clamp_x, Z_bar_dia / 2 + clamp_thickness, clamp_height / 2])
-                    rotate([90, 0, 0])
-                        nut_trap(screw_clearance_radius, nut_radius, nut_trap_depth, horizontal = true);  // clamp screw
-
+             
                 translate([z_bar_offset(), 0,  0])
                     poly_cylinder(r = Z_bar_dia / 2, h = clamp_height * 2 + 1, center = true);       // hole for z rod
 
