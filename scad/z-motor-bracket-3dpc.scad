@@ -76,7 +76,7 @@ module z_motor_bracket(y_offset, rhs) {
                 //
                 // motor holes
                 //
-                poly_cylinder(r = big_hole, h = thickness * 2 + 1, center = true);                   // hole for stepper locating boss
+             #   poly_cylinder(r = big_hole, h = thickness * 2 + 1, center = true);                   // hole for stepper locating boss
 
                 for(x = NEMA_holes(Z_motor))                                                         // motor screw holes
                     for(y = NEMA_holes(Z_motor))
@@ -90,8 +90,10 @@ module z_motor_bracket(y_offset, rhs) {
 
              
                 translate([z_bar_offset(), 0,  0])
-                    poly_cylinder(r = Z_bar_dia / 2, h = clamp_height * 2 + 1, center = true);       // hole for z rod
+             #       poly_cylinder(r = Z_bar_dia / 2, h = clamp_height * 2 + 1, center = true);       // hole for z rod
 
+			    echo("z bar offset", z_bar_offset());
+			 
                 //
                 // screw slots in the back
                 //

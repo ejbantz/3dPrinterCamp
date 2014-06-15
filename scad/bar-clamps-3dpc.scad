@@ -39,7 +39,7 @@ module bar_clamp_holes(d, yaxis) {
             child();
 }
 
-module bar_clamp(d, h, w, switch = false, yaxis = false) {
+module bar_clamp(d, h, w, switch = false, yaxis = false, side = 1) {
     stl(str(yaxis ? "y_bar_clamp" : "z_bar_clamp", (switch && yaxis) ? "_switch" : ""));
     nutty = yaxis ? base_nut_traps : frame_nut_traps;
     mount_screw = yaxis ? base_screw : frame_screw;
@@ -62,9 +62,31 @@ module bar_clamp(d, h, w, switch = false, yaxis = false) {
     tab_height = part_base_thickness + (nutty ? nut_depth : 0);
 
 
-    color(clamp_color) {
+    color("orange") {
         translate([0, rail_offset, 0]) {
             union() {
+				if (yaxis == false)
+				{
+					translate([0,-length/2,0]) rotate([90,0,90]) 
+					difference()
+					{
+						translate([0,32,-6.5])
+							cube([30,15,13]);
+						
+						translate([(stem/2 - outer_rad), h, 0])
+							translate([21,0,0]) 
+								cylinder(100, 5/16 * inch / 2, 5/16 * inch / 2, center = true);
+							
+						translate([(stem/2 - outer_rad), h, 0])
+							cylinder(100, inner_rad, inner_rad, center = true);
+						echo(side);
+						translate([16, - 0.5 * bar_clamp_tab - 0.5,0]) // screwdriver access
+							rotate([90 * side,180,0])
+								teardrop(h = 200, r = 0.30 * inch / 2 , center = true, truncate = false);							
+					}				
+												
+				}
+			
                 difference() {
                     translate([0,-length/2,0]) rotate([90,0,90]) linear_extrude(height = w, center = true, convexity = 6) {
                         difference() {
@@ -79,7 +101,10 @@ module bar_clamp(d, h, w, switch = false, yaxis = false) {
 
                             }
                             translate([(stem/2 - outer_rad), h, 0])
+							{
                                 poly_circle(r = inner_rad, center = true);                  // bore
+						   
+							}
 
                             translate([-rail_offset + 2, h , 0])
                                 square([stem, gap]);                                        // gap
@@ -201,8 +226,8 @@ module z_bar_clamp_assembly(d, h, w, switch = false) {
 module y_bar_clamp_stl()        translate([0,0,bar_clamp_depth/2]) rotate([0,90,0]) bar_clamp(Y_bar_dia, Y_bar_height, bar_clamp_depth, false, true);
 module y_bar_clamp_switch_stl() translate([0,0,bar_clamp_depth/2]) rotate([0,90,0]) bar_clamp(Y_bar_dia, Y_bar_height, bar_clamp_depth, true, true);
 
-module z_bar_clamp_stl()        translate([0,0,bar_clamp_depth/2]) rotate([0,90,0]) bar_clamp(Z_bar_dia, gantry_setback, bar_clamp_depth, false, false);
-module z_bar_clamp_switch_stl() translate([0,0,bar_clamp_depth/2]) rotate([0,90,0]) bar_clamp(Z_bar_dia, gantry_setback, bar_clamp_depth, true, false);
+module z_bar_clamp_stl()        translate([0,-4,bar_clamp_depth/2]) rotate([180,-90,0]) bar_clamp(Z_bar_dia, gantry_setback, bar_clamp_depth, false, false, -1);
+module z_bar_clamp_switch_stl() translate([0,-3,bar_clamp_depth/2]) rotate([0,90,0]) bar_clamp(Z_bar_dia, gantry_setback, bar_clamp_depth, true, false);
 
 module bar_clamps_stl() {
     y2 = bar_clamp_length(Z_bar_dia) - bar_clamp_tab + 2;
@@ -210,11 +235,11 @@ module bar_clamps_stl() {
                                                                                          rotate([0, 0, 180]) z_bar_clamp_switch_stl();
     translate([2, -2 * bar_rail_offset(Z_bar_dia) + bar_clamp_length(Z_bar_dia), 0])                         z_bar_clamp_stl();
 
-    translate([-10, y2, 0])                                                              rotate([0, 0, 180]) y_bar_clamp_switch_stl();
-    translate([12, y2 -2 * bar_rail_offset(Y_bar_dia) + bar_clamp_length(Y_bar_dia), 0])                     y_bar_clamp_stl();
+    translate([-7, y2 , 0])                                                              rotate([0, 0, 180]) y_bar_clamp_switch_stl();
+    translate([10, y2 -2 * bar_rail_offset(Y_bar_dia) + bar_clamp_length(Y_bar_dia) - 8, 13]) rotate([180, 0, 0])                    y_bar_clamp_stl();
 
-    translate([0, y3, 0])                                                                rotate([0, 0, 180]) y_bar_clamp_stl();
-    translate([2, y3 -2 * bar_rail_offset(Y_bar_dia) + bar_clamp_length(Y_bar_dia), 0])                      y_bar_clamp_stl();
+    translate([0, y3 - 4, 0])                                                                rotate([0, 0, 180]) y_bar_clamp_stl();
+    translate([2, y3 -2 * bar_rail_offset(Y_bar_dia) + bar_clamp_length(Y_bar_dia) - 12, 13])  rotate([180, 0, 0])                    y_bar_clamp_stl();
 }
 
 if(1)
