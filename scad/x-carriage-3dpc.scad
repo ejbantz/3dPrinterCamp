@@ -111,10 +111,7 @@ module belt_lug(motor_end) {
            translate([width / 2, lug_screw, height + extra + layer_height / 2 - eta])
                 cylinder(r = M3_clearance_radius + 1, h = layer_height, center = true);
         else
-            for(i = [-1:1])                                                                                 // teeth to grip belt
-               translate([width / 2 + i * belt_pitch(X_belt), slot_y, height- belt_thickness(X_belt) + tooth_height / 2 - eta ])
-                    cube([tooth_width, belt_width(X_belt) + belt_clearance + eta, tooth_height], center = true);
-
+          echo();
     }
 }
 
@@ -626,7 +623,7 @@ module hotend_nut_holder()
 		translate([0, 0, 4])
 		difference(){
 			cylinder(r = 7, height, center = true);
-			nut_trap(2, 5, height * 2);
+			nut_trap(2, 4.5, height * 2);
 		}
 	}
 
@@ -638,7 +635,7 @@ module hotend_nut_holder_holes()
 			union(){
 				cylinder(100,2,2,center=true);
 				translate([0,0,height])
-					nut_trap(2, 5, height - 2 );
+					nut_trap(2, 4.5, height - 2 );
 		}
 	}
 
@@ -812,8 +809,8 @@ else
 							set_of_hotend_nut_holders(50);
 							
 			// servo walls				
-			translate([-13,-57.5,0])
-				cube([servo_width+10,servo_depth+4,servo_height - .5]);
+			translate([-14,-57.5,0])
+				cube([servo_width+12,servo_depth+4,servo_height - .5]);
 
 		}
 
