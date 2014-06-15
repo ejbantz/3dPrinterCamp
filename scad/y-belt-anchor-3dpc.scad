@@ -149,7 +149,14 @@ union(){
 }
 }
 
-if(1)
+if(0)
     y_belt_anchor_assembly(Y_belt_clamp_height, true);
 else
-    y_belt_anchors_stl();
+//    y_belt_anchors_stl();
+for (side = [-1,1])	
+translate([side * 5, 0, 0]) rotate([0,0,90])y_belt_clip_toothed_stl();	
+
+
+	
+	
+	
