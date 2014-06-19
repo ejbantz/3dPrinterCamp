@@ -93,7 +93,7 @@ module bar_clamp(d, h, w, switch = false, yaxis = false, side = 1, carve = -1) {
                         difference() {
                             union() {
                                 translate([0, tab_height / 2, 0])
-                                    square([length, tab_height], center = true);            // base
+                                    square([length + 6, tab_height], center = true);            // base
                                 translate([0, h / 2, 0])
                                     square([stem, h], center = true);                       // stem
                                 translate([(stem/2 - outer_rad), h, 0])
@@ -243,11 +243,11 @@ module bar_clamps_stl() {
                                                                                          rotate([0, 0, 180]) z_bar_clamp_switch_stl();
     translate([2, -2 * bar_rail_offset(Z_bar_dia) + bar_clamp_length(Z_bar_dia), 0])                         z_bar_clamp_stl();
 
-    translate([-7, y2 , 0])                                                              rotate([0, 0, 180]) y_bar_clamp_switch_stl();
-    translate([10, y2 -2 * bar_rail_offset(Y_bar_dia) + bar_clamp_length(Y_bar_dia) - 8, 13]) rotate([180, 0, 0])                    y_bar_clamp_stl();
+    translate([-7, y2 + 1.5, 0])                                                              rotate([0, 0, 180]) y_bar_clamp_switch_stl();
+    translate([10, y2 -2 * bar_rail_offset(Y_bar_dia) + bar_clamp_length(Y_bar_dia) - 5.5, 13]) rotate([180, 0, 0])                    y_bar_clamp_stl();
 
-    translate([0, y3 - 4, 0])                                                                rotate([0, 0, 180])  y_bar_clamp_stl(1);
-    translate([2, y3 -2 * bar_rail_offset(Y_bar_dia) + bar_clamp_length(Y_bar_dia) - 12, 13])  rotate([180, 0, 0])                    y_bar_clamp_stl();
+    translate([0, y3 + 0, 0])                                                                rotate([0, 0, 180])  y_bar_clamp_stl(1);
+    translate([2, y3 -2 * bar_rail_offset(Y_bar_dia) + bar_clamp_length(Y_bar_dia) - 7, 13])  rotate([180, 0, 0])                    y_bar_clamp_stl();
 }
 
 if(1)
