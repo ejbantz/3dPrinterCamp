@@ -39,7 +39,7 @@ module bar_clamp_holes(d, yaxis) {
             child();
 }
 
-module bar_clamp(d, h, w, switch = false, yaxis = false, side = 1) {
+module bar_clamp(d, h, w, switch = false, yaxis = false, side = 1, carve = -1) {
     stl(str(yaxis ? "y_bar_clamp" : "z_bar_clamp", (switch && yaxis) ? "_switch" : ""));
     nutty = yaxis ? base_nut_traps : frame_nut_traps;
     mount_screw = yaxis ? base_screw : frame_screw;
@@ -64,7 +64,8 @@ module bar_clamp(d, h, w, switch = false, yaxis = false, side = 1) {
 
     color("orange") {
         translate([0, rail_offset, 0]) {
-            union() {
+            difference() {
+				union() {
 				if (yaxis == false)
 				{
 					translate([0,-length/2,0]) rotate([90,0,90]) 
@@ -75,7 +76,7 @@ module bar_clamp(d, h, w, switch = false, yaxis = false, side = 1) {
 						
 						translate([(stem/2 - outer_rad), h, 0])
 							translate([21,0,0]) 
-								cylinder(100, 5/16 * inch / 2, 5/16 * inch / 2, center = true);
+								cylinder(100, 22/64 * inch / 2, 5/16 * inch / 2, center = true);
 							
 						translate([(stem/2 - outer_rad), h, 0])
 							cylinder(100, inner_rad, inner_rad, center = true);
@@ -129,6 +130,7 @@ module bar_clamp(d, h, w, switch = false, yaxis = false, side = 1) {
                         
 
                     *translate([0,-50,-1]) cube([100,100,100]);             // cross section for debug
+					
                 }
                 if(switch && yaxis) {                                       // switch bracket
 					 
@@ -157,7 +159,13 @@ module bar_clamp(d, h, w, switch = false, yaxis = false, side = 1) {
                     }
                 }
             }
-        }
+				if (yaxis)
+				  translate([-6.5 + (carve * -2),-length/2 - 3,5]) rotate([90,0,90]) cube([6,16,13]);
+				else
+				  translate([-6.5 + (carve * -2),-length/2 - 3,5]) rotate([90,0,90]) cube([6,27.25,13]);				
+				    
+			}
+		}
     }
 }
 
@@ -223,11 +231,11 @@ module z_bar_clamp_assembly(d, h, w, switch = false) {
 
 //bar_clamp(Z_bar_dia, gantry_setback, bar_clamp_depth, true);
 
-module y_bar_clamp_stl()        translate([0,0,bar_clamp_depth/2]) rotate([0,90,0]) bar_clamp(Y_bar_dia, Y_bar_height, bar_clamp_depth, false, true);
-module y_bar_clamp_switch_stl() translate([0,0,bar_clamp_depth/2]) rotate([0,90,0]) bar_clamp(Y_bar_dia, Y_bar_height, bar_clamp_depth, true, true);
+module y_bar_clamp_stl(carve = -1)        translate([0,0,bar_clamp_depth/2]) rotate([0,90,0]) bar_clamp(Y_bar_dia, Y_bar_height, bar_clamp_depth, false, true, 1, carve);
+module y_bar_clamp_switch_stl() translate([0,0,bar_clamp_depth/2]) rotate([0,90,0]) bar_clamp(Y_bar_dia, Y_bar_height, bar_clamp_depth, true, true, 1, 1);
 
 module z_bar_clamp_stl()        translate([0,-4,bar_clamp_depth/2]) rotate([180,-90,0]) bar_clamp(Z_bar_dia, gantry_setback, bar_clamp_depth, false, false, -1);
-module z_bar_clamp_switch_stl() translate([0,-3,bar_clamp_depth/2]) rotate([0,90,0]) bar_clamp(Z_bar_dia, gantry_setback, bar_clamp_depth, true, false);
+module z_bar_clamp_switch_stl() translate([0,-3,bar_clamp_depth/2]) rotate([0,90,0]) bar_clamp(Z_bar_dia, gantry_setback, bar_clamp_depth, true, false, 1, 1);
 
 module bar_clamps_stl() {
     y2 = bar_clamp_length(Z_bar_dia) - bar_clamp_tab + 2;
@@ -238,7 +246,7 @@ module bar_clamps_stl() {
     translate([-7, y2 , 0])                                                              rotate([0, 0, 180]) y_bar_clamp_switch_stl();
     translate([10, y2 -2 * bar_rail_offset(Y_bar_dia) + bar_clamp_length(Y_bar_dia) - 8, 13]) rotate([180, 0, 0])                    y_bar_clamp_stl();
 
-    translate([0, y3 - 4, 0])                                                                rotate([0, 0, 180]) y_bar_clamp_stl();
+    translate([0, y3 - 4, 0])                                                                rotate([0, 0, 180])  y_bar_clamp_stl(1);
     translate([2, y3 -2 * bar_rail_offset(Y_bar_dia) + bar_clamp_length(Y_bar_dia) - 12, 13])  rotate([180, 0, 0])                    y_bar_clamp_stl();
 }
 
