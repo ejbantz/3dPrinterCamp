@@ -95,6 +95,10 @@ module fixing_block(upper, rear) {
                                      [0, 0, 0, 1] ])
                     vertical_tearslot(h = 100, r = counter_bore_rad + .5, l = slot, center = false);
                 }
+				
+		// remove the thin wall.
+		translate([0,12,15])
+		 cube([25.5,14,20], center = true);
     }
 }
 
