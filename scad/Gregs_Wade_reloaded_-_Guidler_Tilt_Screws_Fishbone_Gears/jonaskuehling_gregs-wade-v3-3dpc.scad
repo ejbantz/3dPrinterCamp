@@ -45,7 +45,7 @@ less_idler_bolt_dist = 0;
 ////////// RENDER EXTRUDER //////////////////////////////////////////////////////////////
 //wade(hotend_mount=groovemount, legacy_mount=false);
 //wade(hotend_mount=reprapfaborg_mount, legacy_mount=false);
-wade(hotend_mount=jhead_mount, legacy_mount=false);
+wade(hotend_mount=0, legacy_mount=false);
 //wade(hotend_mount=arcol_mount, legacy_mount=false);
 //wade(hotend_mount=grrf_peek_mount, legacy_mount=false);
 
@@ -56,7 +56,7 @@ wade(hotend_mount=jhead_mount, legacy_mount=false);
 
 
 ////////// RENDER IDLER /////////////////////////////////////////////////////////////////////
-translate([78+extra_gear_separation,-10,16.20])		// POSITIONING
+translate([78+extra_gear_separation,-10,14.3305])		// POSITIONING
 	rotate([0,-90,0])
 		wadeidler();
 
@@ -169,7 +169,7 @@ hole_for_608=22.6;
 block_top_right=[wade_block_width,wade_block_height];
 
 layer_thickness=0.25;
-filament_feed_hole_d=2.75;
+filament_feed_hole_d=4.1;
 filament_diameter=1.75;
 filament_feed_hole_offset=filament_diameter+1.5;
 idler_nut_trap_depth=7.3;
@@ -613,10 +613,10 @@ module wadeidler(){
 			difference(){
 				cylinder(h=idler_608_height,r=idler_608_diameter/2,
 					center=true,$fn=60);
-				for (i=[0,1])
-				rotate([180*i,0,0])
-				translate([0,0,6.9/2])
-				cylinder(r1=12/2,r2=16/2,h=2);
+//				for (i=[0,1])
+//				rotate([180*i,0,0])
+//				translate([0,0,6.9/2])
+//	#			cylinder(r1=12/2,r2=16/2,h=2);
 			}
 			cylinder(h=idler_short_side-6,r=m8_diameter/2-0.25/*Tight*/,
 				center=true,$fn=20);
