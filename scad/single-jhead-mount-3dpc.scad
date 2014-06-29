@@ -9,7 +9,7 @@ jhead_diameter = .63 * inch;
 jhead_diameter_inner = .42 * inch;
 
 
-module no6nut() { cylinder(r= .32/2 * inch, h=.12 * inch, $fn = 6, center=[0,0]); }
+module no6nut() { cylinder(r= .35/2 * inch, h=.12 * inch, $fn = 6, center=[0,0]); }
 module no6rod() { cylinder(r= .16/2 * inch, h=2 * inch, $fn = 20, center=[0,0]); }
 
 difference(){
