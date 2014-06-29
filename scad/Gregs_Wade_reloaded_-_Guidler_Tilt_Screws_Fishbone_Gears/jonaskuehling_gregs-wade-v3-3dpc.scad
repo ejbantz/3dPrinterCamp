@@ -6,6 +6,10 @@
 
 include<configuration.scad>
 include<jonaskuehling-default.scad>
+include <MCAD/units.scad>
+
+
+module M4nut() { cylinder(r= .32/2 * inch, h=0.125 * inch, $fn = 6, center=[0,0]); }
 
 // Define the hotend_mounting style you want by specifying hotend_mount=style1+style2 etc.
 malcolm_hotend_mount=1;
@@ -169,7 +173,7 @@ hole_for_608=22.6;
 block_top_right=[wade_block_width,wade_block_height];
 
 layer_thickness=0.25;
-filament_feed_hole_d=4.1;
+filament_feed_hole_d=4.2;
 filament_diameter=1.75;
 filament_feed_hole_offset=filament_diameter+1.5;
 idler_nut_trap_depth=7.3;
@@ -391,8 +395,8 @@ module block_holes(legacy_mount=false){
 	//Rounded cutout for idler hinge.
 	render()
 	translate(idler_fulcrum)
-	difference(){
-		cylinder(r=idler_hinge_r+0.5,h=idler_short_side+0.5,center=true,$fn=60);
+		difference(){
+		cylinder(r=idler_hinge_r+0.5,h=idler_short_side+3.5,center=true,$fn=60);
 		cylinder(r=idler_hinge_r+1,h=idler_short_side-2*idler_hinge_width-0.5,center=true);
 	}
 
@@ -433,8 +437,15 @@ module block_holes(legacy_mount=false){
 			translate([-filament_feed_hole_offset,0,wade_block_depth/2])
 			rotate([90,0,0])
 			rotate(360/16)
-			cylinder(r=filament_feed_hole_d/2,h=wade_block_depth*3,center=true,$fn=8);	
+	#		cylinder(r=filament_feed_hole_d/2,h=wade_block_depth*3,center=true,$fn=40);	
 
+	
+	        // nut trap for bowden
+			translate([-filament_feed_hole_offset,-34.825,wade_block_depth/2])
+			rotate([90,0,0])
+			 
+	#		M4nut();
+			
 			//Widened opening for hobbed bolt access.
 			// EDIT jonaskuehling: removed for better stability around tilt screw nut traps
 /*			translate([2,wade_block_height/2+2,wade_block_depth/2+0.2])
@@ -453,14 +464,14 @@ module block_holes(legacy_mount=false){
 					-motor_mount_translation[1]-1,wade_block_depth/2])
 				rotate([-90,0,0])
 				rotate(360/16)
-				cylinder(r=m4_diameter/2,h=base_thickness+2,$fn=8);	
+				cylinder(r=m4_diameter/2,h=base_thickness+2,$fn=40);	
 	
 				translate([-filament_feed_hole_offset+25*((mount<1)?1:-1),
 					-motor_mount_translation[1]+base_thickness/2,
 					wade_block_depth/2])
 				rotate([-90,0,0]){
 //				cylinder(r=m4_nut_diameter/2,h=base_thickness,$fn=6);
-				translate([0,0,base_thickness/2]) rotate([0,0,30]) nut_trap(m4_wrench,base_thickness,0);}
+			#	translate([0,0,base_thickness/2]) rotate([0,0,0]) nut_trap(.31*inch,base_thickness,0);}
 			}
 
 		}
