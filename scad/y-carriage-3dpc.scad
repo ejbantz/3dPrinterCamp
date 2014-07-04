@@ -43,17 +43,16 @@ difference(){
 		}
 		
 		// Bar connecting the bearing mounts
-		translate([0,0,connecting_bar_thickness/2])
-		difference() 
-		{
-			cube([8.2 * inch,3.75 * inch,connecting_bar_thickness], center=true);
-			cube([7.7 * inch,3.25 * inch,connecting_bar_thickness + 1], center=true);
-		}
+		for (side = [-1, 1])
+			translate([ (5 + width_on_center / 4) * side, 0 * inch,connecting_bar_thickness/2])
+				cube([(width_on_center  / 2) - 6, .25 * inch, connecting_bar_thickness ], center=true);
+		
+		for (side = [-1, 1])
+			translate([width_on_center/ 2 * side, 0,connecting_bar_thickness/2])
+				cube([.25 * inch, length_on_center, connecting_bar_thickness ], center=true);
 
 		
-		// Bar connecting the belt holders
-		translate([0,0,connecting_bar_thickness/2])
-		cube([.14 * inch,3.75 * inch,connecting_bar_thickness], center=true);
+	
 			
 		 y_belt_anchors_stl();
 		
@@ -82,6 +81,15 @@ difference(){
 		translate([120,length_on_center/2 * side,0]) bolt_holes();
 
 	}
+	
+	// center notches
+	for (side = [-1,1])
+		translate([(width_on_center/2 + .5 * inch) * side,0,0])
+			cube([1 * inch,.05 * inch, 6], center = true);
+		
+
+
+	
 }
 
 module bolt_holes() {
@@ -90,7 +98,7 @@ module bolt_holes() {
 
 module nut_holder()
 {
-    hex_radius = 8.5 /2;
+    hex_radius = 9.5 /2;
 	height = 6;
 	translate([0,0,height/2])
 	difference(){
