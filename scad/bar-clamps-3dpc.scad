@@ -68,6 +68,9 @@ module bar_clamp(d, h, w, switch = false, yaxis = false, side = 1, carve = -1) {
 				union() {
 				if (yaxis == false)
 				{
+					
+					
+					
 					translate([0,-length/2,0]) rotate([90,0,90]) 
 					difference()
 					{
@@ -240,9 +243,7 @@ module z_bar_clamp_switch_stl() translate([0,-3,bar_clamp_depth/2]) rotate([0,90
 module bar_clamps_stl() {
     y2 = bar_clamp_length(Z_bar_dia) - bar_clamp_tab + 2;
     y3 = y2 + bar_clamp_length(Y_bar_dia) - bar_clamp_tab + 2;
-                                                                                         rotate([0, 0, 180]) z_bar_clamp_switch_stl();
-    translate([2, -2 * bar_rail_offset(Z_bar_dia) + bar_clamp_length(Z_bar_dia), 0])                         z_bar_clamp_stl();
-
+   
     translate([-7, y2 + 1.5, 0])                                                              rotate([0, 0, 180]) y_bar_clamp_switch_stl();
     translate([10, y2 -2 * bar_rail_offset(Y_bar_dia) + bar_clamp_length(Y_bar_dia) - 5.5, 13]) rotate([180, 0, 0])                    y_bar_clamp_stl();
 
