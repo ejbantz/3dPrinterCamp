@@ -91,7 +91,7 @@ module z_motor_bracket(y_offset, rhs) {
                 //
                 // threaded rod holes
                 //
-                    poly_cylinder(r = Z_bar_dia / 2 + 1, h = clamp_height * 2 + 1, center = true);       // hole for z rod
+                    poly_cylinder(r = Z_bar_dia / 2 + .5, h = clamp_height * 2 + 1, center = true);       // hole for z rod
 
 
 			 //
