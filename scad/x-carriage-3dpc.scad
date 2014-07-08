@@ -1,4 +1,4 @@
-//
+	//
 // Mendel90
 //
 // GNU GPL v2
@@ -524,15 +524,16 @@ module x_carriage_stl(){
                         union() {
                             // base plate
                             difference() {
-                                linear_extrude(height = rim_thickness, center = true, convexity = 5)
+								translate([0,0,0])
+                                linear_extrude(height = rim_thickness , center = true, convexity = 5)
                                    base_shape();
 
                                 translate([0, 0, top_thickness])
-                                    linear_extrude(height = rim_thickness, center = true, convexity = 5)
+                                    linear_extrude(height = rim_thickness , center = true, convexity = 5)
                                         difference() {
                                          inner_base_shape();
 										 translate([-base_offset, -hole_offset])
-                                              rounded_square(hole + 4 * wall + 36, hole_width + 2 * wall, corner_radius + wall);
+                                              rounded_square(hole + 4 * wall + 8, hole_width  + 2 * wall, corner_radius + wall);
 
                                         }
                             }
@@ -546,7 +547,7 @@ module x_carriage_stl(){
                          }
  
 						//Holes for bearing holders
-                         translate([- bar_x,        bar_y, rim_thickness - top_thickness - eta])
+                         translate([0,        bar_y, rim_thickness - top_thickness - eta])
                             cube([bearing_holder_length(X_bearings) - 2 * eta, bearing_holder_width(X_bearings) - 2 * eta, rim_thickness * 2], center = true);
 
                          translate([- bar_x, -bar_y, rim_thickness - top_thickness - eta])
@@ -567,15 +568,19 @@ module x_carriage_stl(){
                         belt_lug(false);
 
                 //Bearing holders
-                translate([- bar_x,        bar_y, bar_offset - top_thickness]) rotate([0,0,90]) bearing_holder(X_bearings, bar_offset - eta);
+            #   translate([0,        bar_y, bar_offset - top_thickness]) rotate([0,0,90]) bearing_holder(X_bearings, bar_offset - eta);
                 translate([- bar_x, -bar_y, bar_offset - top_thickness]) rotate([0,0,90]) bearing_holder(X_bearings, bar_offset - eta);
                 translate([+ bar_x, -bar_y, bar_offset - top_thickness]) rotate([0,0,90]) bearing_holder(X_bearings, bar_offset - eta);
 
             }
+			echo("hole");
+			echo(hole + 12);
+			
+			
             translate([-base_offset, 0, 0]) {
                 // hole to clear the hot end
 			    translate([0, - hole_offset])
-                    rounded_rectangle([hole + 40, hole_width , 2 * rim_thickness], corner_radius);
+                    rounded_rectangle([hole + 12, hole_width , 2 * rim_thickness], corner_radius);
 
 
             }
@@ -622,7 +627,7 @@ module hotend_nut_holder()
 		rotate(90)
 		translate([0, 0, 4])
 		difference(){
-			cylinder(r = 7, height, center = true);
+			cylinder(r = 6, height, center = true);
 			nut_trap(2, 4.5, height * 2);
 		}
 	}
@@ -794,6 +799,26 @@ else
 */
 
 
+module 40mmFan() {
+  translate([0,0,22])
+ rotate([0,90,0])
+ rotate([0,0,-45])
+ union(){
+	 rotate([0,0,45])
+	 cube([41,41,12], center=true);
+		for (side = [-1,1])
+			translate([45/2*side,0,15])
+				cylinder(30,1.6,1.6,center=true);
+		for (side = [-1,1])
+			translate([0,45/2*side,15])
+				cylinder(30,1.6,1.6,center=true);				
+				
+ }
+}
+
+
+	
+
 
 	difference(){
 		// body walls
@@ -802,18 +827,26 @@ else
 			x_carriage_stl();
 
 			// nut holders for jheads
-			for (set = [-1,1])
-				for (rotation = [90])
-					translate([set * spacing_between_hotends/2,0,0])
-						rotate(rotation)
-							set_of_hotend_nut_holders(50);
+						
+							set_of_hotend_nut_holders(60);
 							
 			// servo walls				
 			translate([-14,-57.5,0])
 				cube([servo_width+12,servo_depth+4,servo_height - .5]);
 
+		
+			// fan walls
+
+			translate([length/2,-20.5,2])
+			rotate([0,0,90])
+				cube([41,2.5,20.5]);
+			translate([-length/2 +2.5,-20.5,2])
+			rotate([0,0,90])
+				cube([41,2.5,20.5]);
 		}
 
+		
+		
 		// Spaces to make
 		union()
 		{
@@ -832,13 +865,18 @@ else
 			cylinder(30,1.5,1.5);			
 				
 			
-			// Holes for jhead mounting
-			for (set = [-1,1])
-				for (rotation = [90])
-					translate([set * spacing_between_hotends/2,0,0])
-						rotate(rotation)
-							set_of_hotend_nut_holders_holes(50);
-
 			
+			for (side = [-1,1])
+			translate([side * 41.5,0,-20])
+				rotate([0,0,90 * (side-1)])
+					40mmFan();
+			
+			// fan walls
+			translate([length/2 + 1,-22.5/2,4])
+			rotate([0,0,90])
+				cube([22.5,5,25]);			
+			translate([-length/2 + 3,-22.5/2,4])
+			rotate([0,0,90])
+				cube([22.5,5,25]);
 		}
 	}
