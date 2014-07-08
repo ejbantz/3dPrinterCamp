@@ -9,7 +9,7 @@ include<jonaskuehling-default.scad>
 include <MCAD/units.scad>
 
 
-module M4nut() { cylinder(r= .32/2 * inch, h=0.125 * inch, $fn = 6, center=[0,0]); }
+module M4nut() { cylinder(r= .32/2 * inch + 1, h=0.125 * inch, $fn = 6, center=[0,0]); }
 
 // Define the hotend_mounting style you want by specifying hotend_mount=style1+style2 etc.
 malcolm_hotend_mount=1;
@@ -437,7 +437,7 @@ module block_holes(legacy_mount=false){
 			translate([-filament_feed_hole_offset,0,wade_block_depth/2])
 			rotate([90,0,0])
 			rotate(360/16)
-	#		cylinder(r=filament_feed_hole_d/2,h=wade_block_depth*3,center=true,$fn=40);	
+	#		cylinder(r=filament_feed_hole_d/2 + .5,h=wade_block_depth*3,center=true,$fn=40);	
 
 	
 	        // nut trap for bowden
