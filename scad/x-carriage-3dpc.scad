@@ -835,14 +835,7 @@ module 40mmFan() {
 				cube([servo_width+12,servo_depth+4,servo_height - .5]);
 
 		
-			// fan walls
-
-			translate([length/2,-20.5,2])
-			rotate([0,0,90])
-				cube([41,2.5,20.5]);
-			translate([-length/2 +2.5,-20.5,2])
-			rotate([0,0,90])
-				cube([41,2.5,20.5]);
+	
 		}
 
 		
@@ -867,16 +860,10 @@ module 40mmFan() {
 			
 			
 			for (side = [-1,1])
-			translate([side * 41.5,0,-20])
+			translate([side * 41.5,0,-34])
 				rotate([0,0,90 * (side-1)])
-					40mmFan();
+				#	40mmFan();
 			
-			// fan walls
-			translate([length/2 + 1,-22.5/2,4])
-			rotate([0,0,90])
-				cube([22.5,5,25]);			
-			translate([-length/2 + 3,-22.5/2,4])
-			rotate([0,0,90])
-				cube([22.5,5,25]);
+  		 
 		}
 	}
