@@ -858,11 +858,13 @@ module 40mmFan() {
 			cylinder(30,1.5,1.5);			
 				
 			
+			// holes to mount jhead bracket
+			# set_of_hotend_nut_holders_holes(60);
 			
 			for (side = [-1,1])
 			translate([side * 41.5,0,-34])
 				rotate([0,0,90 * (side-1)])
-				#	40mmFan();
+					40mmFan();
 			
   		 
 		}
