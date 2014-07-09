@@ -12,7 +12,7 @@ use <pulley.scad>
 
 thickness = 4;
 tab = 2 + washer_diameter(base_washer);
-foot = part_base_thickness + (base_nut_traps ? nut_trap_depth(base_nut) : 0);
+foot = part_base_thickness + (base_nut_traps ? nut_trap_depth(base_nut) : 0) ;
 holes = tab / 2 + 1;
 
 function y_motor_bracket_height() = round(NEMA_width(Y_motor)) + 2;
@@ -39,7 +39,7 @@ module y_motor_bracket() {
         color(y_motor_bracket_color) {
             difference() {
                 translate([0, 0, thickness - depth / 2])                    // main body
-                    cube([width, height, depth], center = true);
+                    cube([width , height, depth], center = true);
 
                 cylinder(r = NEMA_big_hole(Y_motor)+2, h = thickness * 2 + 1, center = true);   // hole for stepper locating boss
 
@@ -52,7 +52,11 @@ module y_motor_bracket() {
                 translate([width / 2, foot, 0])
                     cube([tab * 2,  height, depth * 2], center = true);
 
-                translate([0, - height / 2 + foot, - depth + thickness])    // sloping sides
+                // cut short
+                translate([0, 31, 0])
+                    cube([80,  tab * 2, depth * 2], center = true);
+
+				translate([0, - height / 2 + foot, - depth + thickness])    // sloping sides
                     rotate([45,0,0])
                         translate([0,0, - depth / 2])
                             cube([width, 3 * height, depth], center = true);
@@ -63,9 +67,9 @@ module y_motor_bracket() {
                             poly_cylinder(r = M3_clearance_radius, h = 2 * thickness + 1, center = true);
 
                 for(side = [-1,1])
-                    translate([side * (width / 2 - tab), height / 2, 0])
+                    translate([side * (width / 2 - tab) , height / 2 - 2, 0])
                         rotate([0, 0, -135 - side *45])
-                            fillet(r = 3, h = 100);
+                        #    fillet(r = 3, h = 100);
                 //
                 // mounting screw holes
                 //
