@@ -443,8 +443,8 @@ module block_holes(legacy_mount=false){
 	        // nut trap for bowden
 			translate([-filament_feed_hole_offset,-34.825,wade_block_depth/2])
 			rotate([90,0,0])
-			 
-	#		M4nut();
+			cylinder(r= .63/2 * inch + 1, h=0.125 * inch, $fn = 200 , center=[0,0]);
+	 
 			
 			//Widened opening for hobbed bolt access.
 			// EDIT jonaskuehling: removed for better stability around tilt screw nut traps
