@@ -45,12 +45,20 @@ difference(){
 		// Bar connecting the bearing mounts
 		for (side = [-1, 1])
 			translate([ (5 + width_on_center / 4) * side, 0 * inch,connecting_bar_thickness/2])
+			{
 				cube([(width_on_center  / 2) - 6, .25 * inch, connecting_bar_thickness ], center=true);
+				translate([ -3 * side,0,5.5])
+				#	cube([(width_on_center  / 2) - 3, .4, 11 ], center=true);
+			}
 		
 		for (side = [-1, 1])
 			translate([width_on_center/ 2 * side, 0,connecting_bar_thickness/2])
-				cube([.25 * inch, length_on_center, connecting_bar_thickness ], center=true);
-
+			{
+	#			cube([.25 * inch, length_on_center, connecting_bar_thickness ], center=true);
+				translate([-.4 * side,0,5.5])
+	#			cube([.4, length_on_center - 31, 11 ], center=true);
+	
+			}
 		
 	
 			
@@ -85,7 +93,7 @@ difference(){
 	// center notches
 	for (side = [-1,1])
 		translate([(width_on_center/2 + .5 * inch) * side,0,0])
-			cube([1 * inch,.05 * inch, 6], center = true);
+			cube([1 * inch,.05 * inch, 100], center = true);
 		
 
 
