@@ -13,15 +13,16 @@ innerArmLength = 28.5;
 difference(){
   union(){
     difference(){
-      roundedBox([width,length,4],4,true); //main body
-      translate([0, 0 ,3])
-        roundedBox([0.21 * inch,45,5],2.4,true);  //slot for servo arm
+	 translate([0,0,2])
+     roundedBox([width,length,8],4,true); //main body
+      translate([0, 0 ,3 + 2])
+        roundedBox([0.21 * inch,45,5 + 4],2.4,true);  //slot for servo arm
       translate([0,-(length / 2 - motorHoleRadius - (width/2-motorHoleRadius)),-5])
-      	cylinder(r=motorHoleRadius,h=10, $fn=30); //  Hole for servo spindle
+      	cylinder(r=motorHoleRadius,h=10 + 4, $fn=30); //  Hole for servo spindle
      }
 
-    translate([0,length / 2 - 5/2,0])
-    	roundedBox([20,5,4],1.75,true); // Microswtich mount body
+    translate([0,length / 2 - 5/2,2])
+    	roundedBox([20,5,4 + 4],1.75,true); // Microswtich mount body
   }
 	 
 
