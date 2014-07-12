@@ -48,7 +48,7 @@ difference(){
 			{
 				cube([(width_on_center  / 2) - 6, .25 * inch, connecting_bar_thickness ], center=true);
 				translate([ -3 * side,0,5.5])
-					cube([(width_on_center  / 2) - 5, .5, 11 ], center=true);
+					cube([(width_on_center  / 2) - 5, 1, 11 ], center=true);
 			}
 		
 		for (side = [-1, 1])
@@ -56,7 +56,7 @@ difference(){
 			{
 	#			cube([.25 * inch, length_on_center, connecting_bar_thickness ], center=true);
 				translate([-.5 * side,0,5.5])
-	#			cube([.5, length_on_center - 31, 11 ], center=true);
+	#			cube([1, length_on_center - 31, 11 ], center=true);
 	
 			}
 		
