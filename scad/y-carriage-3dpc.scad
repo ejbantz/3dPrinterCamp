@@ -48,15 +48,15 @@ difference(){
 			{
 				cube([(width_on_center  / 2) - 6, .25 * inch, connecting_bar_thickness ], center=true);
 				translate([ -3 * side,0,5.5])
-				#	cube([(width_on_center  / 2) - 3, .4, 11 ], center=true);
+					cube([(width_on_center  / 2) - 5, .5, 11 ], center=true);
 			}
 		
 		for (side = [-1, 1])
 			translate([width_on_center/ 2 * side, 0,connecting_bar_thickness/2])
 			{
 	#			cube([.25 * inch, length_on_center, connecting_bar_thickness ], center=true);
-				translate([-.4 * side,0,5.5])
-	#			cube([.4, length_on_center - 31, 11 ], center=true);
+				translate([-.5 * side,0,5.5])
+	#			cube([.5, length_on_center - 31, 11 ], center=true);
 	
 			}
 		
